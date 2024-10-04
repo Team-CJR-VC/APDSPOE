@@ -5,42 +5,39 @@ function Register() {
   const [accountNumber, setAccountNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure passwords match
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
-
     try {
-        const response = await fetch('https://localhost/api/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ accountNumber, password }),
-          });
+      const response = await fetch('https://localhost/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accountNumber, password }),
+      });
 
       if (response.ok) {
-        // Registration successful, redirect to login
         alert('Registration successful! Please log in.');
-        navigate('/');
+        navigate('/login');
       } else {
         const data = await response.json();
-        alert(data.message);
+        console.error('Registration error:', data);
+        setErrorMessage(data.message || 'An error occurred. Please try again.');
       }
     } catch (error) {
-      console.error('Error registering:', error);
+      console.error('Network error:', error); // Log the network error to the console
+      setErrorMessage('A network error occurred. Please try again.');
     }
   };
 
   return (
     <div className="register">
       <h2>Register</h2>
+      {errorMessage && <p className="error">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Account Number:</label>
@@ -71,7 +68,7 @@ function Register() {
         </div>
         <button type="submit">Register</button>
       </form>
-      <p>Already have an account? <Link to="/">Login</Link></p>
+      <p>Already have an account? <Link to="/login">Login</Link></p>
     </div>
   );
 }

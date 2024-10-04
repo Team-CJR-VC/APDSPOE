@@ -4,6 +4,7 @@ import Login from './components/Login';
 import Payment from './components/Payment';
 import Register from './components/Register';
 import Confirmation from './components/Confirmation';
+import Home from './components/Home';
 import './App.css';
 
 function App() {
@@ -14,23 +15,28 @@ function App() {
         <nav className="navbar">
           <ul>
             <li>
-              <Link to="/">Login</Link>
-            </li>
-            <li>
-              <Link to="/register">Register</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <Link to="/payment">Payment</Link>
             </li>
+          </ul>
+
+          {/* Right-aligned menu */}
+          <ul className="right-menu">
             <li>
-              <Link to="/confirmation">Confirmation</Link>
+              <Link to="/login">Login</Link>
+            </li>
+            <li>
+              <Link to="/register">Register</Link>
             </li>
           </ul>
         </nav>
 
         {/* Routes */}
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/register" element={<Register />} />
           <Route path="/confirmation" element={<Confirmation />} />
