@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,59 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.App {
+  text-align: center;
+}
+
+form {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+.navbar ul {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
+  display: flex; /* Display items in a row */
+}
+
+.navbar li {
+  margin-right: 20px; /* Space between items */
+}
+
+.navbar a {
+  color: white; /* Text color */
+  text-decoration: none; /* Remove underline */
+}
+
+.navbar a:hover {
+  text-decoration: underline; /* Underline on hover */
 }
