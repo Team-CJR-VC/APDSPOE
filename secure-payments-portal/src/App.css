@@ -132,3 +132,13 @@ button:hover {
 .navbar a:hover {
   text-decoration: underline;
 }
+
+.logout-button {
+  margin: 0 10px;  /* Same padding as other buttons */
+  color: #007bff;  /* Match other buttons' background color */
+  text-decoration: none;
+}
+
+.logout-button:hover {
+  text-decoration: underline;
+}

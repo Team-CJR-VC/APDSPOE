@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const [accountNumber, setAccountNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -20,7 +20,16 @@ function Login() {
       });
 
       if (response.ok) {
-        console.log('Login successful');
+        const data = await response.json();
+        const { token } = data;
+
+        // Store the token in localStorage
+        localStorage.setItem('jwt', token);
+
+        // Set isLoggedIn to true
+        setIsLoggedIn(true);
+
+        // Navigate to the payment page after login
         navigate('/payment');
       } else {
         const data = await response.json();
@@ -28,7 +37,7 @@ function Login() {
         setErrorMessage(data.message || 'An error occurred. Please try again.');
       }
     } catch (error) {
-      console.error('Network error:', error); // Log the network error to the console
+      console.error('Network error:', error);
       setErrorMessage('A network error occurred. Please try again.');
     }
   };

@@ -4,10 +4,25 @@ const express = require('express');
 const helmet = require('helmet');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-const morgan = require('morgan'); // For logging requests
-const winston = require('winston'); // For logging errors
+const morgan = require('morgan');
+const winston = require('winston');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
 const app = express();
+
+// Load environment variables
+require('dotenv').config();
+const mongoURI = process.env.MONGO_URI;
+
+// Connect to MongoDB Atlas
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB Atlas');
+  })
+  .catch((error) => {
+    console.error('MongoDB connection error:', error);
+  });
 
 // Create a logger instance using winston
 const logger = winston.createLogger({
@@ -15,43 +30,41 @@ const logger = winston.createLogger({
   format: winston.format.json(),
   transports: [
     new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    new winston.transports.Console({ format: winston.format.simple() })
+    new winston.transports.Console({ format: winston.format.simple() }),
   ],
 });
 
-// Enable CORS for all origins (development only)
+// Enable CORS and security headers
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('combined')); // Log incoming requests
 
-// Simulated users database (for demo purposes)
-const users = [];
+// Create a User model
+const UserSchema = new mongoose.Schema({
+  accountNumber: { type: String, required: true, unique: true },
+  passwordHash: { type: String, required: true },
+});
 
-// Serve static files from the React frontend
-app.use(express.static('../secure-payments-portal/build'));
+const User = mongoose.model('User', UserSchema);
 
 // POST route to handle registration
 app.post('/api/register', async (req, res) => {
   const { accountNumber, password } = req.body;
 
   try {
-    // Check if the account number already exists
-    const existingUser = users.find(user => user.accountNumber === accountNumber);
+    const existingUser = await User.findOne({ accountNumber });
     if (existingUser) {
       return res.status(400).json({ message: 'Account number already exists' });
     }
 
-    // Hash the password
     const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = new User({ accountNumber, passwordHash });
+    await newUser.save();
 
-    // Add the new user to the users array
-    users.push({ accountNumber, passwordHash });
-
-    // Respond with a success message
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    logger.error('Error registering user:', error); // Log the error
+    logger.error('Error registering user:', error);
     res.status(500).json({ message: 'An error occurred during registration.' });
   }
 });
@@ -61,32 +74,33 @@ app.post('/api/login', async (req, res) => {
   const { accountNumber, password } = req.body;
 
   try {
-    // Find the user by account number
-    const user = users.find(user => user.accountNumber === accountNumber);
-
+    const user = await User.findOne({ accountNumber });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Compare the provided password with the stored password hash
     const passwordMatch = await bcrypt.compare(password, user.passwordHash);
-
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // If login is successful, respond with a success message
-    res.status(200).json({ message: 'Login successful' });
+     // Generate JWT token
+     const token = jwt.sign({ accountNumber }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(200).json({ message: 'Login successful', token });
   } catch (error) {
-    logger.error('Error during login:', error); // Log the error
+    logger.error('Error during login:', error);
     res.status(500).json({ message: 'An error occurred during login.' });
   }
 });
 
+// Serve static files from the React frontend (Uncomment if serving frontend from this backend)
+app.use(express.static('../secure-payments-portal/build'));
+
 // HTTPS options with SSL certificate
 const sslOptions = {
   key: fs.readFileSync('localhost-key.pem'),
-  cert: fs.readFileSync('localhost.pem')
+  cert: fs.readFileSync('localhost.pem'),
 };
 
 // Start the HTTPS server
