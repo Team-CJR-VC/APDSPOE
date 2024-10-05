@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const winston = require('winston');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const constants = require('constants');
 
 const app = express();
 
@@ -37,8 +38,26 @@ const logger = winston.createLogger({
 // Enable CORS and security headers
 app.use(cors());
 app.use(express.json());
-app.use(helmet());
+// Configure Helmet with HSTS headers
+app.use(helmet({
+  hsts: {
+    maxAge: 63072000,  // 2 years in seconds
+    includeSubDomains: true,  // Apply to subdomains
+    preload: true  // Allow browsers to preload HSTS settings
+  }
+}));
 app.use(morgan('combined')); // Log incoming requests
+
+// HTTP to HTTPS redirection middleware
+app.use((req, res, next) => {
+  if (req.secure) {
+    // Already HTTPS, continue
+    return next();
+  } else {
+    // Redirect HTTP to HTTPS
+    res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+});
 
 // Create a User model
 const UserSchema = new mongoose.Schema({
@@ -101,6 +120,7 @@ app.use(express.static('../secure-payments-portal/build'));
 const sslOptions = {
   key: fs.readFileSync('localhost-key.pem'),
   cert: fs.readFileSync('localhost.pem'),
+  secureOptions: constants.SSL_OP_NO_TLSv1 | constants.SSL_OP_NO_TLSv1_1  // Disable TLS 1.0 and 1.1
 };
 
 // Start the HTTPS server
