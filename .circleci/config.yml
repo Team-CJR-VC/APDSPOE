@@ -1,0 +1,41 @@
+version: 2.1
+
+jobs:
+  backend-build:
+    docker:
+      - image: cimg/node:20.2
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies for Backend
+          command: |
+            cd BACKEND
+            npm install
+      - run:
+          name: Build Backend
+          command: |
+            cd BACKEND
+            npm run build
+
+  frontend-build:
+    docker:
+      - image: cimg/node:20.2
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies for Frontend
+          command: |
+            cd secure-payments-portal
+            npm install
+      - run:
+          name: Build Frontend
+          command: |
+            cd secure-payments-portal
+            npm run build
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - backend-build
+      - frontend-build
