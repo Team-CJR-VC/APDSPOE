@@ -15,7 +15,7 @@ jobs:
           name: Build Backend
           command: |
             cd BACKEND
-            npm start
+            npm run build
 
   frontend-build:
     docker:
