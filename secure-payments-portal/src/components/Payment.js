@@ -13,7 +13,7 @@ function Payment() {
       const token = localStorage.getItem('jwt');
       if (!token) {
         // Redirect to login if not authenticated
-        navigate('/login');
+        navigate('/auth/login');
       }
     }, [navigate]);
 

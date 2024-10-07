@@ -137,8 +137,12 @@ button:hover {
   margin: 0 10px;  /* Same padding as other buttons */
   color: #007bff;  /* Match other buttons' background color */
   text-decoration: none;
+  background-color: transparent;
+  font-weight: bold;
 }
 
 .logout-button:hover {
   text-decoration: underline;
+  background-color: transparent;
+  color: white;
 }

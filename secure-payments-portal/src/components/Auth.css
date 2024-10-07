@@ -1,4 +1,4 @@
-.auth-container {
+/* .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -85,4 +85,127 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+} */
+
+/* Container for the form and the flipping effect */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, white, cornflowerblue); /* Gradient from white to light blue */;
 }
+
+.flip-card {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.auth-box {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Front side (Login) */
+.login-side {
+  display: flex;
+  flex-direction: row;
+  background-color: #004aad;
+  color: white;
+}
+
+.login-form {
+  width: 50%;
+  padding: 40px;
+  border:none;
+}
+
+.login-navigate {
+  width: 50%;
+  padding: 40px;
+  background-color: #fff;
+  color: black;
+}
+
+/* Back side (Register) */
+.register-side {
+  display: flex;
+  flex-direction: row;
+  background-color: #004aad;
+  color: white;
+  transform: rotateY(180deg);
+}
+
+.register-form {
+  width: 50%;
+  padding: 40px;
+  border: none;
+}
+
+.register-navigate {
+  width: 50%;
+  padding: 40px;
+  background-color: white;
+  color: black;
+}
+
+.navigate-button {
+  background-color: #004aad;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.navigate-button:hover {
+  background-color: #003580;
+}
+
+.auth-button {
+  background-color: #004aad;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  border: 2px solid white;
+}
+
+.auth-button:hover {
+  background-color: #003580;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
