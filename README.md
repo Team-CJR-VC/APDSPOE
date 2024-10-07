@@ -84,10 +84,6 @@ cd ../secure-payments-portal
 npm start
 ```
 
-### 7. Access the Application
-- Frontend: Open [http://localhost:3000](http://localhost:3000)
-- Backend: Ensure the backend is running on **https://localhost:443** (or any configured port)
-
 ### 8. Running DevSecOps Pipeline
 - CircleCI is set up for Continuous Integration (CI). Push code to the repository to trigger the CI pipeline, which includes **SonarQube** scans for security and code quality checks.
 
