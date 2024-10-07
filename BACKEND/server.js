@@ -183,6 +183,8 @@ const sslOptions = {
 };
 
 // Start the HTTPS server
-https.createServer(sslOptions, app).listen(443, () => {
-  console.log('Server running on https://localhost');
-});
+if (process.env.CI !== 'true') {
+  https.createServer(sslOptions, app).listen(443, () => {
+    console.log('Server running on https://localhost');
+  });
+}
