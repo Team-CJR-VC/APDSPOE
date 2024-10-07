@@ -1,53 +1,41 @@
 version: 2.1
 
-# Define the jobs to be used in workflows
 jobs:
-  # Job to set up Node.js environment and run tests
-  build-and-test:
+  backend-tests:
     docker:
-      - image: circleci/node:16  # Use a Node.js Docker image
-    steps:
-      - checkout  # Check out the code from the repository
-
-      - run:
-          name: Install Dependencies
-          command: npm install  # Install dependencies
-
-      - run:
-          name: Lint the code
-          command: npm run lint  # Run linter
-
-      - run:
-          name: Run Tests
-          command: npm test  # Run your tests
-
-  # Job to deploy the project (assuming you are deploying to a server)
-  deploy:
-    docker:
-      - image: circleci/node:16
+      - image: circleci/node:14
     steps:
       - checkout
-
       - run:
-          name: Install Dependencies
-          command: npm install
-
-      - run:
-          name: Build the Project
-          command: npm run build  # Assuming you have a build command
-
-      - run:
-          name: Deploy
+          name: Install Dependencies for Backend
           command: |
-            echo "Deploying the project..."
-            # Add deployment commands here, like SSH to server and deploy, or deploy to a service like Heroku/AWS
+            cd BACKEND
+            npm install
+      - run:
+          name: Run Backend Tests
+          command: |
+            cd BACKEND
+            npm test
 
-# Workflows orchestrate jobs
+  frontend-tests:
+    docker:
+      - image: cimg/node:20.2
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies for Frontend
+          command: |
+            cd secure-payments-portal
+            npm install
+      - run:
+          name: Run Frontend Tests
+          command: |
+            cd secure-payments-portal
+            npm test
+
 workflows:
   version: 2
-  build-and-deploy:
+  test-workflow:
     jobs:
-      - build-and-test
-      - deploy:
-          requires:
-            - build-and-test  # Deploy only after tests pass
+      - backend-tests
+      - frontend-tests
