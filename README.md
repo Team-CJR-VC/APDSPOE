@@ -153,5 +153,3 @@ CJR Projects is a dynamic group of students passionate about software developmen
 This project is licensed under the terms of The Independent Institute of Education (IIE).
 
 ---
-
-This format now includes the numbering for the main headings, subheadings, and a hyperlinked table of contents. Let me know if you need any more adjustments!
