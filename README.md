@@ -63,7 +63,7 @@ This project is a continuation of Part 1 of the **Application Development Securi
 - **Registration**: Allows new users to securely register with their account number and password.
 - **Login**: Authenticates users, issues a **JWT token**, and sets it in a secure cookie for session management.
 - **Payment**: Allows logged-in users to securely submit payment details for processing.
-- **Confirmation**: Displays the confirmation message after a successful transaction.
+- **Home**: Home: Displays the home page, inclusive of hyperlinks to the other 3 endpoints.
 
 ### 3.6. DevSecOps Pipeline
 - A **DevSecOps pipeline** using **CircleCI** is configured to run automated security scans with **SonarQube** to check for security vulnerabilities, code smells, and hotspots in the codebase.
