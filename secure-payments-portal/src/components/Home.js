@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div className="gradient-background">
+    <body className="gradient-background">
       <div className="content-container">
         <h1>Welcome to the Secure Payments Portal</h1>
         <p>Your secure gateway for online transactions. Developed by CJR</p>
@@ -21,7 +21,7 @@ function Home() {
           </ul>
         </nav>
       </div>
-    </div>
+    </body>
   );
 }
 

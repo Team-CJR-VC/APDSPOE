@@ -37,6 +37,13 @@
   }
 } */
 
+html, body {
+  height: 100%; /* Ensure the root elements cover the full height of the viewport */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent scrollbars */
+}
+
 .App {
   text-align: center;
 }
@@ -146,18 +153,19 @@ button:hover {
 }
 
 .gradient-background {
-  height: 100vh; /* Full viewport height */
+  height: 100vh; /* Stretch to fill the entire viewport */
   display: flex;
   justify-content: center;
-  align-items:start;
-  background: linear-gradient(to right, white, cornflowerblue); /* Gradient background */
+  align-items: flex-start;
+  background: linear-gradient(to right, white, cornflowerblue);
+  box-sizing: border-box; /* Include padding and borders in element's total size */
 }
 
 .gradient-background-payment {
   height: 100vh; /* Full viewport height */
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background: linear-gradient(to right, white, cornflowerblue); /* Gradient background */
 }
 
