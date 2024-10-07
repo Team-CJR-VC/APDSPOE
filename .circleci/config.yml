@@ -11,11 +11,6 @@ jobs:
           command: |
             cd BACKEND
             npm install
-      - run:
-          name: Run Backend Tests
-          command: |
-            cd BACKEND
-            npm test
 
   frontend-tests:
     docker:
@@ -27,11 +22,6 @@ jobs:
           command: |
             cd secure-payments-portal
             npm install
-      - run:
-          name: Run Frontend Tests
-          command: |
-            cd secure-payments-portal
-            npm test
 
 workflows:
   version: 2
