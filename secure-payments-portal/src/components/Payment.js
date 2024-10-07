@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Payment() {
@@ -7,6 +7,15 @@ function Payment() {
   const [accountInfo, setAccountInfo] = useState('');
   const [swiftCode, setSwiftCode] = useState('');
   const navigate = useNavigate();
+
+    // Check if the user is logged in
+    useEffect(() => {
+      const token = localStorage.getItem('jwt');
+      if (!token) {
+        // Redirect to login if not authenticated
+        navigate('/login');
+      }
+    }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
