@@ -6,9 +6,9 @@ function Home() {
     <div className="gradient-background">
       <div className="content-container">
         <h1>Welcome to the Secure Payments Portal</h1>
-        <p>Your secure gateway for online transactions.</p>
+        <p>Your secure gateway for online transactions. Developed by CJR</p>
         <nav>
-          <ul>
+          <ul style={{ listStyleType: 'none', padding: 0 }}>
             <li>
               <Link to="/auth/login">Login</Link>
             </li>
