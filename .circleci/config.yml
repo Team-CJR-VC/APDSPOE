@@ -1,9 +1,9 @@
 version: 2.1
 
 jobs:
-  backend-tests:
+  backend-build:
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:20.2
     steps:
       - checkout
       - run:
@@ -11,8 +11,13 @@ jobs:
           command: |
             cd BACKEND
             npm install
+      - run:
+          name: Build Backend
+          command: |
+            cd BACKEND
+            npm run build
 
-  frontend-tests:
+  frontend-build:
     docker:
       - image: cimg/node:20.2
     steps:
@@ -22,10 +27,15 @@ jobs:
           command: |
             cd secure-payments-portal
             npm install
+      - run:
+          name: Build Frontend
+          command: |
+            cd secure-payments-portal
+            npm run build
 
 workflows:
   version: 2
-  test-workflow:
+  build-workflow:
     jobs:
-      - backend-tests
-      - frontend-tests
+      - backend-build
+      - frontend-build
