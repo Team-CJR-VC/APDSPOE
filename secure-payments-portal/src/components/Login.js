@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import './Auth.css'; // Import the new CSS file
 
 function Login({ setIsLoggedIn }) {
   const [accountNumber, setAccountNumber] = useState('');
@@ -43,31 +44,37 @@ function Login({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="login">
-      <h2>Login</h2>
-      {errorMessage && <p className="error">{errorMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Account Number:</label>
-          <input
-            type="text"
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
-            required
-          />
+    <div className="auth-container">
+      <div className="auth-box">
+        <div className="form">
+          <h2>Sign In</h2>
+          {errorMessage && <p className="error">{errorMessage}</p>}
+          <form className="form-value" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Account Number"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className="auth-button">Sign In</button>
+          </form>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="navigate">
+          <h2>Hello, User!</h2>
+          <p>Don't have an account? Create One</p>
+          <Link to="/Register">
+          <button className="navigate-button">Sign Up</button>
+          </Link>
         </div>
-        <button type="submit">Login</button>
-      </form>
-      <p>Don't have an account? <Link to="/register">Register</Link></p>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import './Auth.css'; // Import the new CSS file
 
 function Register() {
   const [accountNumber, setAccountNumber] = useState('');
@@ -35,40 +36,44 @@ function Register() {
   };
 
   return (
-    <div className="register">
-      <h2>Register</h2>
-      {errorMessage && <p className="error">{errorMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Account Number:</label>
-          <input
-            type="text"
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
-            required
-          />
+    <div className="auth-container">
+      <div className="auth-box">
+        <div className="navigate">
+          <h2>Welcome Back!</h2>
+          <p>Enter Your Account Details in the Sign In Page</p>
+          <Link to="/login">
+        <button className="navigate-button">Sign In</button>
+        </Link>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
+        <div className="form">
+          <h2>Create Account</h2>
+          {errorMessage && <p className="error">{errorMessage}</p>}
+          <form className="form-value" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Account Number"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+           <input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
+            <button type="submit" className="auth-button">Sign Up</button>
+          </form>
         </div>
-        <button type="submit">Register</button>
-      </form>
-      <p>Already have an account? <Link to="/login">Login</Link></p>
+      </div>
     </div>
   );
 }
