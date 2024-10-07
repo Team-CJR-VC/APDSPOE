@@ -8,14 +8,14 @@ function Payment() {
   const [swiftCode, setSwiftCode] = useState('');
   const navigate = useNavigate();
 
-    // Check if the user is logged in
-    useEffect(() => {
-      const token = localStorage.getItem('jwt');
-      if (!token) {
-        // Redirect to login if not authenticated
-        navigate('/auth/login');
-      }
-    }, [navigate]);
+  // Check if the user is logged in
+  useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (!token) {
+      // Redirect to login if not authenticated
+      navigate('/auth/login');
+    }
+  }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,47 +34,49 @@ function Payment() {
   };
 
   return (
-    <div className="payment">
-      <h2>Make a Payment</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Amount:</label>
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Currency:</label>
-          <input
-            type="text"
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Account Info:</label>
-          <input
-            type="text"
-            value={accountInfo}
-            onChange={(e) => setAccountInfo(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>SWIFT Code:</label>
-          <input
-            type="text"
-            value={swiftCode}
-            onChange={(e) => setSwiftCode(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Submit Payment</button>
-      </form>
+    <div className="gradient-background-payment">
+      <div className="content-container">
+        <h2>Make a Payment</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Amount:</label>
+            <input
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Currency:</label>
+            <input
+              type="text"
+              value={currency}
+              onChange={(e) => setCurrency(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>Account Info:</label>
+            <input
+              type="text"
+              value={accountInfo}
+              onChange={(e) => setAccountInfo(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>SWIFT Code:</label>
+            <input
+              type="text"
+              value={swiftCode}
+              onChange={(e) => setSwiftCode(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit">Submit Payment</button>
+        </form>
+      </div>
     </div>
   );
 }

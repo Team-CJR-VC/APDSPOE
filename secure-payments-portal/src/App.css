@@ -44,7 +44,6 @@
 form {
   margin: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
   display: inline-block;
 }
 
@@ -57,14 +56,14 @@ input {
 
 button {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #004aad;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #218838;
+  background-color: #003580;;
 }
 
 .navbar {
@@ -102,7 +101,6 @@ button:hover {
 .home {
   text-align: center;
   padding: 20px;
-  background-color: #f8f9fa; /* Light background for the homepage */
 }
 
 .home h1 {
@@ -145,4 +143,31 @@ button:hover {
   text-decoration: underline;
   background-color: transparent;
   color: white;
+}
+
+.gradient-background {
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items:start;
+  background: linear-gradient(to right, white, cornflowerblue); /* Gradient background */
+}
+
+.gradient-background-payment {
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, white, cornflowerblue); /* Gradient background */
+}
+
+.content-container {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white; /* Optional: To add a white background to your content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a box shadow */
+  max-width: 800px; /* Set a max width for the content */
+  width: 100%;
+  margin-top: 3%;
+  text-align: center; /* Center text content */
 }
