@@ -6,7 +6,7 @@ function Confirmation() {
     <div className="confirmation">
       <h2>Payment Successful!</h2>
       <p>Your payment has been processed successfully.</p>
-      <Link to="/login">Go back to Login</Link>
+      <Link to="/">Go back to Home</Link>
     </div>
   );
 }
