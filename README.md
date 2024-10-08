@@ -69,7 +69,7 @@ This project is a continuation of Part 1 of the **Application Development Securi
 - A **DevSecOps pipeline** using **CircleCI** is configured to run automated security scans with **SonarQube** to check for security vulnerabilities, code smells, and hotspots in the codebase.
 
 ### 3.7. Video Demonstration
-- A video showing the working application, security features, and DevSecOps pipeline has been included as part of the submission.
+- A video showing the working application, security features, and DevSecOps pipeline can be viewed [here](https://youtu.be/xpqOqq8GEi0)
 
 ## 4. Installation and Setup
 
