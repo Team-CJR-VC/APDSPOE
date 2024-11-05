@@ -12,9 +12,9 @@ function Home() {
             <li>
               <Link to="/auth/login">Login</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/auth/register">Register</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/payment">Make a Payment</Link>
             </li>
