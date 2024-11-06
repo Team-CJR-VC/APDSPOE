@@ -320,10 +320,41 @@ const app = express();
 require('dotenv').config();
 const mongoURI = process.env.MONGO_URI;
 
+//Seed Admin Account
+async function seedAdmin() {
+  try {
+    const adminAccountNumber = process.env.ADMIN_ACCOUNT_NUMBER || 'admin';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+
+    // Check if an admin account already exists
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      console.log('Admin account already exists');
+      return;
+    }
+
+    // Hash the password and create the admin user
+    const passwordHash = await bcrypt.hash(adminPassword, 10);
+    const adminUser = new User({
+      fullName: 'Admin',
+      idNumber: '0000000000000',
+      accountNumber: adminAccountNumber,
+      passwordHash: passwordHash,
+      roles: ['admin', 'employee']
+    });
+
+    await adminUser.save();
+    console.log(`Admin account created with account number: ${adminAccountNumber}`);
+  } catch (error) {
+    console.error('Error creating admin account:', error);
+  }
+}
+
 // Connect to MongoDB Atlas
 mongoose.connect(mongoURI)
   .then(() => {
     console.log('Connected to MongoDB Atlas');
+    seedAdmin(); // Seed admin after MongoDB connection is established
   })
   .catch((error) => {
     console.error('MongoDB connection error:', error);

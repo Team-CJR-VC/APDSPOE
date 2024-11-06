@@ -85,9 +85,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
-// import jwtDecode from 'jwt-decode'; // Use to decode the JWT token
-//REF: https://stackoverflow.com/questions/41818822/how-to-import-the-jwt-decode-type-definition-into-typescript-ionic-2
-import * as JWT from 'jwt-decode';
+import * as jwt_decode from "jwt-decode";
 import Auth from './components/Auth';
 import Payment from './components/Payment';
 import Confirmation from './components/Confirmation';
@@ -98,29 +96,28 @@ import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [role, setRole] = useState(null); // New state for storing the user's role
+  const [roles, setRoles] = useState([]);
 
-  // Check if user is logged in and retrieve role
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token) {
       setIsLoggedIn(true);
-      // const decodedToken = jwtDecode(token); // Use jwt_decode here
-      const decodedToken = JWT(token); // Use jwt_decode here
-      setRole(decodedToken.role); // Extract role from the token
+      const decodedToken = jwt_decode(token); // Use jwt_decode here
+      setRoles(Array.isArray(decodedToken.roles) ? decodedToken.roles : [decodedToken.role || '']);
     } else {
       setIsLoggedIn(false);
-      setRole(null);
+      setRoles([]);
     }
   }, []);
 
-  // Logout function
   const handleLogout = (navigate) => {
     localStorage.removeItem('jwt');
     setIsLoggedIn(false);
-    setRole(null);
+    setRoles([]);
     navigate('/auth/login');
   };
+
+  const hasRole = (role) => roles.includes(role);
 
   return (
     <Router>
@@ -131,12 +128,8 @@ function App() {
             {isLoggedIn && (
               <>
                 <li><Link to="/payment">Payment</Link></li>
-                {role === 'admin' && (
-                  <li><Link to="/create-account">Create Account</Link></li> // Admin-only link
-                )}
-                {role === 'employee' && (
-                  <li><Link to="/create-user">Create User Account</Link></li> // Employee-only link
-                )}
+                {hasRole('admin') && <li><Link to="/create-account">Create Account</Link></li>}
+                {hasRole('employee') && <li><Link to="/create-user">Create User Account</Link></li>}
               </>
             )}
           </ul>
@@ -145,31 +138,24 @@ function App() {
             {isLoggedIn ? (
               <li><LogoutButton handleLogout={handleLogout} /></li>
             ) : (
-              <>
-                <li><Link to="/login">Login</Link></li>
-              </>
+              <li><Link to="/auth/login">Login</Link></li>
             )}
           </ul>
         </nav>
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth/:mode" element={<Auth setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
+          <Route path="/auth/:mode" element={<Auth setIsLoggedIn={setIsLoggedIn} setRoles={setRoles} />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/confirmation" element={<Confirmation />} />
-          {role === 'admin' && (
-            <Route path="/create-account" element={<CreateAccount />} /> // Admin-only route
-          )}
-          {role === 'employee' && (
-            <Route path="/create-user" element={<CreateUserAccount />} /> // Employee-only route
-          )}
+          {hasRole('admin') && <Route path="/create-account" element={<CreateAccount />} />}
+          {hasRole('employee') && <Route path="/create-user" element={<CreateUserAccount />} />}
         </Routes>
       </div>
     </Router>
   );
 }
 
-// Logout button component
 function LogoutButton({ handleLogout }) {
   const navigate = useNavigate();
   return (
@@ -178,4 +164,3 @@ function LogoutButton({ handleLogout }) {
 }
 
 export default App;
-
