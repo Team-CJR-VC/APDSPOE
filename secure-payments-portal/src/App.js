@@ -85,7 +85,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
-import * as jwt_decode from "jwt-decode";
+// import * as jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Auth from './components/Auth';
 import Payment from './components/Payment';
 import Confirmation from './components/Confirmation';
@@ -98,17 +99,29 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [roles, setRoles] = useState([]);
 
+  // useEffect(() => {
+  //   const token = localStorage.getItem('jwt');
+  //   if (token) {
+  //     setIsLoggedIn(true);
+  //     const decodedToken = jwtDecode(token); // Use jwt_decode here
+  //     setRoles(Array.isArray(decodedToken.roles) ? decodedToken.roles : [decodedToken.role || '']);
+  //   } else {
+  //     setIsLoggedIn(false);
+  //     setRoles([]);
+  //   }
+  // }, []);
+
   useEffect(() => {
     const token = localStorage.getItem('jwt');
     if (token) {
       setIsLoggedIn(true);
-      const decodedToken = jwt_decode(token); // Use jwt_decode here
+      const decodedToken = jwtDecode(token);
       setRoles(Array.isArray(decodedToken.roles) ? decodedToken.roles : [decodedToken.role || '']);
     } else {
       setIsLoggedIn(false);
       setRoles([]);
     }
-  }, []);
+  }, [isLoggedIn, roles]);
 
   const handleLogout = (navigate) => {
     localStorage.removeItem('jwt');

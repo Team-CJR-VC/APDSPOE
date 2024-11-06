@@ -422,7 +422,9 @@ const User = mongoose.model('User', userSchema);
 // Middleware to check role permissions
 function checkRolePermission(requiredRoles) {
   return (req, res, next) => {
+    console.log(req.body);
     const userRole = req.user.role;
+    console.log(userRole);
 
     if (!requiredRoles.includes(userRole)) {
       return res.status(403).json({ message: 'Permission denied' });
@@ -431,9 +433,45 @@ function checkRolePermission(requiredRoles) {
   };
 }
 
-// POST route for admin to create account (can create 'employee' or 'user' accounts)
-app.post('/api/admin/create-account', [
-  checkRolePermission(['admin']),
+// function authenticateJWT(req, res, next) {
+//   const token = req.cookies.jwt;
+//   console.log('backend token: '+token);
+
+//   if (!token) {
+//     return res.status(401).json({ message: 'Access denied. No token provided.' });
+//   }
+
+//   try {
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//     req.user = decoded;  // Assign decoded token to req.user
+//     next();
+//   } catch (error) {
+//     return res.status(401).json({ message: 'Invalid token.' });
+//   }
+// }
+
+function authenticateJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  console.log('backend: '+authHeader);
+
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.split(' ')[1]; // Extract the token part after "Bearer "
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;  // Assign decoded token to req.user
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Invalid token.' });
+    }
+  } else {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+}
+
+app.post('/api/admin/create-account', authenticateJWT, checkRolePermission(['admin']), [
+  body('fullName').isString().trim().escape(),
+  body('idNumber').isString().trim().escape(),
   body('accountNumber').isString().trim().escape(),
   body('password').isString().trim().escape(),
   body('role').isString().trim().escape().isIn(['employee', 'user'])
@@ -443,7 +481,7 @@ app.post('/api/admin/create-account', [
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { accountNumber, password, role } = req.body;
+  const { fullName, idNumber, accountNumber, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ accountNumber });
@@ -451,10 +489,17 @@ app.post('/api/admin/create-account', [
       return res.status(400).json({ message: 'Account number already exists' });
     }
 
+    // Hash the password and store it
     const passwordHash = await bcrypt.hash(password, 10);
-    const newUser = new User({ accountNumber, password: passwordHash, role });
-    await newUser.save();
+    const newUser = new User({
+      fullName,
+      idNumber,
+      accountNumber,
+      passwordHash,
+      role
+    });
 
+    await newUser.save();
     res.status(201).json({ message: 'Admin created account successfully' });
   } catch (error) {
     logger.error('Error creating account:', error);
@@ -463,17 +508,19 @@ app.post('/api/admin/create-account', [
 });
 
 // POST route for employee to create user account (can only create 'user' accounts)
-app.post('/api/employee/create-user', [
-  checkRolePermission(['employee']),
+app.post('/api/employee/create-user', authenticateJWT, checkRolePermission(['employee']), [
+  body('fullName').isString().trim().escape(),
+  body('idNumber').isString().trim().escape(),
   body('accountNumber').isString().trim().escape(),
-  body('password').isString().trim().escape()
+  body('password').isString().trim().escape(),
+  body('role').isString().trim().escape().isIn(['user'])
 ], async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { accountNumber, password } = req.body;
+  const { fullName, idNumber, accountNumber, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ accountNumber });
@@ -482,7 +529,13 @@ app.post('/api/employee/create-user', [
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const newUser = new User({ accountNumber, password: passwordHash, role: 'user' });
+    const newUser = new User({
+      fullName,
+      idNumber,
+      accountNumber,
+      passwordHash,
+      role: 'user'
+    });
     await newUser.save();
 
     res.status(201).json({ message: 'Employee created user account successfully' });

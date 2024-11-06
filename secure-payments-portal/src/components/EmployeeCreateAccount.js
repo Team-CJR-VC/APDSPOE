@@ -10,13 +10,17 @@ function EmployeeCreateAccount() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { fullName, idNumber, accountNumber, password, role: 'User' };
-
+    const data = { fullName, idNumber, accountNumber, password, role: 'user' };
+    console.log(data);
     try {
+      const token = localStorage.getItem('jwt'); // Get token from localStorage
+      //const role = localStorage.getItem('role'); //Get the role from localStorage
+      console.log(token);
       const response = await fetch(`https://localhost/api/employee/create-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Set the Authorization header
         },
         body: JSON.stringify(data),
       });
