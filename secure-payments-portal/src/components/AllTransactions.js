@@ -5,32 +5,35 @@ function AllTransactions() {
   const [allPayments, setAllPayments] = useState([]);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchAllPayments = async () => {
-      try {
-        const token = localStorage.getItem('jwt');
-        const response = await fetch("https://localhost/api/admin/payments", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);  // Check the structure here
-          setAllPayments(data);
-        } else {
-          const errorData = await response.json();
-          setError(errorData.message || 'Failed to fetch payments');
-        }
-      } catch (error) {
-        setError('Network error: Failed to fetch payments');
+  // Function to fetch all payments
+  const fetchAllPayments = async () => {
+    try {
+      const token = localStorage.getItem('jwt');
+      const response = await fetch("https://localhost/api/admin/payments", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);  // Check the structure here
+        setAllPayments(data);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || 'Failed to fetch payments');
       }
-    };
-  
+    } catch (error) {
+      setError('Network error: Failed to fetch payments');
+    }
+  };
+
+  // Fetch payments when the component mounts
+  useEffect(() => {
     fetchAllPayments();
   }, []);
 
+  // Function to handle payment approval
   const handleApprove = async (paymentId) => {
     try {
       const token = localStorage.getItem('jwt');
@@ -42,8 +45,7 @@ function AllTransactions() {
       });
 
       if (response.ok) {
-        const updatedPayment = await response.json();
-        setAllPayments(allPayments.map(payment => payment._id === paymentId ? updatedPayment.payment : payment));
+        await fetchAllPayments();  // Refetch payments after approval
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to approve payment');
@@ -53,6 +55,7 @@ function AllTransactions() {
     }
   };
 
+  // Function to handle payment denial
   const handleDeny = async (paymentId) => {
     try {
       const token = localStorage.getItem('jwt');
@@ -64,8 +67,7 @@ function AllTransactions() {
       });
 
       if (response.ok) {
-        const updatedPayment = await response.json();
-        setAllPayments(allPayments.map(payment => payment._id === paymentId ? updatedPayment.payment : payment));
+        await fetchAllPayments();  // Refetch payments after denial
       } else {
         const errorData = await response.json();
         setError(errorData.message || 'Failed to deny payment');
@@ -84,8 +86,8 @@ function AllTransactions() {
           {allPayments.map((payment) => (
             <li key={payment._id} className="transaction-item">
               <div className="user-info">
-                <p><strong>User Full Name:</strong> {payment.userDetails.fullName}</p>
-                <p><strong>Account Number:</strong> {payment.userDetails.accountNumber}</p>
+                <p><strong>User Full Name:</strong> {payment.userDetails?.fullName || 'N/A'}</p>
+                <p><strong>Account Number:</strong> {payment.userDetails?.accountNumber || 'N/A'}</p>
               </div>
               <div className="payment-info">
                 <p><strong>Amount:</strong> {payment.amount}</p>
@@ -113,4 +115,3 @@ function AllTransactions() {
 }
 
 export default AllTransactions;
-

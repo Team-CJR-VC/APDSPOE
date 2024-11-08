@@ -4,11 +4,11 @@ html, body {
     padding: 0; /* Remove default padding */
     overflow-x: hidden; /* Prevent horizontal scrolling */
     overflow-y: auto; /* Enable vertical scrolling */
+    background: linear-gradient(to right, white, cornflowerblue);
   }
   
   .all-transactions-container {
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
     max-width: 900px;
     margin: auto;
@@ -41,7 +41,7 @@ html, body {
   }
   
   .transaction-item .user-info {
-    background-color: #4caf50;
+    background-color: #004aad;
     color: white;
     padding: 10px;
     border-radius: 8px;
