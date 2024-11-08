@@ -17,20 +17,31 @@ function Payment() {
     }
   }, [navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here you would normally send the payment data to the backend
-    const paymentData = {
-      amount,
-      currency,
-      accountInfo,
-      swiftCode,
-    };
-
-    console.log('Submitting Payment', paymentData);
-    // Simulate payment success
-    navigate('/confirmation');
+  
+    const paymentData = { amount, currency, accountInfo, swiftCode };
+  
+    try {
+      const token = localStorage.getItem('jwt');
+      const response = await fetch(`https://localhost/api/payments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(paymentData),
+      });
+  
+      if (response.ok) {
+        navigate('/confirmation');
+      } else {
+        const errorData = await response.json();
+        console.error('Payment failed:', errorData);
+      }
+    } catch (error) {
+      console.error('Error submitting payment:', error);
+    }
   };
 
   return (

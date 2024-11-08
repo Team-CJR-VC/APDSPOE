@@ -26,9 +26,6 @@ function Auth({ setIsLoggedIn, setRoles }) {
       if (response.ok) {
         const data = await response.json();
         const { token, role } = data;
-        // localStorage.setItem('jwt', token);
-        // localStorage.setItem('role', role);
-        // setIsLoggedIn(true);
         localStorage.setItem('jwt', token);
         localStorage.setItem('role', role.toLowerCase()); // Set role in lowercase
         setIsLoggedIn(true);
