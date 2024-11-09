@@ -33,9 +33,27 @@ jobs:
             cd secure-payments-portal
             npm run build
 
+  sonar-scan:
+    docker:
+      - image: sonarsource/sonar-scanner-cli:latest
+    steps:
+      - checkout
+      - run:
+          name: Run SonarQube Analysis
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=Team-CJR-VC_APDSPOE \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=${SONAR_HOST_URL} \
+              -Dsonar.login=${SONAR_TOKEN}
+
 workflows:
   version: 2
   build-workflow:
     jobs:
       - backend-build
       - frontend-build
+      - sonar-scan:
+          requires:
+            - backend-build
+            - frontend-build
