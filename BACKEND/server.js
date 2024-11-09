@@ -103,7 +103,8 @@ app.use((req, res, next) => {
   if (req.secure) {
     return next();
   } else {
-    res.redirect(`https://${req.headers.host}${req.url}`);
+    const host = process.env.HOST || req.hostname;
+    res.redirect(`https://${host}${req.originalUrl}`);
   }
 });
 
@@ -157,7 +158,7 @@ function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   console.log('backend: '+authHeader);
 
-  if (authHeader && authHeader.startsWith('Bearer ')) {
+  if (authHeader?.startsWith('Bearer ')) {
     const token = authHeader.split(' ')[1]; // Extract the token part after "Bearer "
 
     try {
