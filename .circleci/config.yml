@@ -52,7 +52,7 @@ workflows:
     jobs:
       - backend-build
       - frontend-build
-      - sonar-scan:
+      - sonarcloud:
           requires:
             - backend-build
             - frontend-build
