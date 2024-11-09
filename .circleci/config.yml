@@ -33,26 +33,28 @@ jobs:
             cd secure-payments-portal
             npm run build
 
-sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
+  sonarcloud-scan:
+    docker:
+      - image: sonarsource/sonar-scanner-cli:4.6
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - checkout
+      - run:
+          name: SonarCloud Scan
+          command: |
+            sonar-scanner \
+              -Dsonar.organization="your-organization" \
+              -Dsonar.projectKey="your-project-key" \
+              -Dsonar.sources="." \
+              -Dsonar.host.url="https://sonarcloud.io" \
+              -Dsonar.login=$SONAR_TOKEN
 
 workflows:
   version: 2
-  build-workflow:
+  build-and-scan:
     jobs:
       - backend-build
       - frontend-build
-      - sonarcloud:
+      - sonarcloud-scan:
           requires:
             - backend-build
             - frontend-build
