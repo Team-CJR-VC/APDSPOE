@@ -42,8 +42,8 @@ jobs:
           name: SonarCloud Scan
           command: |
             sonar-scanner \
-              -Dsonar.organization="your-organization" \
-              -Dsonar.projectKey="your-project-key" \
+              -Dsonar.organization="team-cjr-vc" \
+              -Dsonar.projectKey="Team-CJR-VC_APDSPOE" \
               -Dsonar.sources="." \
               -Dsonar.host.url="https://sonarcloud.io" \
               -Dsonar.login=$SONAR_TOKEN
