@@ -48,7 +48,7 @@ function App() {
                 <li><Link to="/transactions">Transactions</Link></li>
                 {hasRole('admin') && <li><Link to="/create-account">Create Account</Link></li>}
                 {hasRole('employee') && <li><Link to="/create-user">Create User Account</Link></li>}
-                {hasRole('admin' || 'employee') && <li><Link to="/all-transactions">All Transactions</Link></li>}
+                {(hasRole('admin') || hasRole('employee')) && <li><Link to="/all-transactions">All Transactions</Link></li>}
               </>
             )}
           </ul>
@@ -70,7 +70,7 @@ function App() {
           <Route path="/confirmation" element={<Confirmation />} />
           {hasRole('admin') && <Route path="/create-account" element={<CreateAccount />} />}
           {hasRole('employee') && <Route path="/create-user" element={<CreateUserAccount />} />}
-          {hasRole('admin' || 'employee') && <Route path="/all-transactions" element={<AllTransactions />} />}
+          {(hasRole('admin') || hasRole('employee')) && <Route path="/all-transactions" element={<AllTransactions />} />}
         </Routes>
       </div>
     </Router>
