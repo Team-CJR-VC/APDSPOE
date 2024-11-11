@@ -1,13 +1,5 @@
-Here's an updated README for Part 3, incorporating a changelog section, rubric-specific descriptions, and all specified requirements:
-
----
-
 # Secure Customer and Employee International Payments Portal (APDS POE Part 3)
-
-![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Team-CJR-VC_APDSPOE&metric=alert_status)
-![CircleCI Build Status](https://circleci.com/gh/username/projectname.svg?style=svg)  
-![CircleCI Coverage](https://circleci.com/gh/username/projectname.svg?style=shield)
-
+![image](https://github.com/user-attachments/assets/4bfec2aa-72be-4025-9968-88c34194ebc8)
 ---
 
 ## Table of Contents
