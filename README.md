@@ -120,6 +120,7 @@ npm start
 ### 4.8. Running DevSecOps Pipeline
 - **CircleCI** is configured to trigger CI upon each push to the repository. This triggers 
 **SonarQube** scans for  security and code quality checks. Click here to view:
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Team-CJR-VC_APDSPOE&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Team-CJR-VC_APDSPOE)
  
 ![image](https://github.com/user-attachments/assets/0671cacd-8815-4ce1-a293-5323365b3b6f)
