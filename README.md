@@ -169,9 +169,7 @@ npm start
 - [React Documentation](https://reactjs.org/)
 - [Helmet Security Headers](https://helmetjs.github.io/)
 - [express-rate-limit Documentation](https://www.npmjs.com/package/express-rate-limit)
-- [CircleCI Setup](https://circle
-
-ci.com/docs/)
+- [CircleCI Setup](https://circleci.com/docs/)
 - [SonarQube Setup](https://www.sonarqube.org/)
 
 ---
