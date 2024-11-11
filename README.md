@@ -151,7 +151,7 @@ npm start
 
 ## 6. Demonstration Video
 
-Click [here](https://www.sonarqube.org/) to view the demonstration video
+Click [here](https://youtu.be/DVuqnpsoxJA) to view the demonstration video
 ---
 ## 7. Testing
 
