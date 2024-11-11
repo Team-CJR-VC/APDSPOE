@@ -43,6 +43,14 @@
 
 This project is Part 3 of the **Application Development Security (APDS)** Portfolio of Evidence (POE). It builds on the secure **Customer International Payments Portal** developed in Part 2 by adding a secure **Employee Portal** for managing international payments. The Employee Portal enables authorized employees to securely log in, review transactions, and forward them to SWIFT for processing. The project ensures robust security across both portals by incorporating best practices in password security, input validation, SSL encryption, and protection against common web attacks.
 
+## Enhanced Permissions and Roles
+In this part of the project, we've added the following features to manage accounts and transactions more securely and efficiently:
+
+- **Admin Role**: Admins can create both employee and customer accounts.
+- **Employee Role**: Employees can create customer accounts only.
+- **Transaction Management**: Admins and employees can view all transactions and approve or disapprove them.
+- **Customer Access**: Customers can view their transaction history, including the status (approved/disapproved) of each payment.
+
 ## 3. Features Implemented
 
 ### 3.1. Password Security
