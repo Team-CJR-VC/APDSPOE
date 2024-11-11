@@ -22,12 +22,13 @@
     4.6. [Run the Backend Server](#46-run-the-backend-server)  
     4.7. [Run the Frontend](#47-run-the-frontend)  
     4.8. [Running DevSecOps Pipeline](#48-running-devsecops-pipeline)  
-5. [Changelog](#5-changelog)  
-6. [Testing](#6-testing)
-7. [Technologies Used](#7-technologies-used)
-8. [References](#8-references)
-9. [CJR Projects Bio](#9-cjr-projects-bio)
-10. [License](#10-license)
+5. [Changelog](#5-changelog)
+6. [Demonstration Video](#6-demonstration-video)
+7. [Testing](#6-testing)
+8. [Technologies Used](#7-technologies-used)
+9. [References](#8-references)
+10. [CJR Projects Bio](#9-cjr-projects-bio)
+11. [License](#10-license)
 
 ---
 
@@ -140,14 +141,18 @@ npm start
 
 ---
 
-## 6. Testing
+## 6. Demonstration Video
+
+Click [here](https://www.sonarqube.org/) to view the demonstration video
+---
+## 7. Testing
 
 1. **Functionality Testing**: ValidateD the login, payment, and transaction management features across both portals.
 2. **Security Testing**: EnsureD protections against SQL Injection, Session Hijacking, Clickjacking, and DDoS attacks are functioning correctly.
 
 ---
 
-## 7. Technologies Used
+## 8. Technologies Used
 
 - **Node.js** and **Express.js** (Backend)
 - **React.js** (Frontend)
@@ -162,7 +167,7 @@ npm start
 
 ---
 
-## 8. References
+## 9. References
 
 - [Mongoose Documentation](https://mongoosejs.com/docs/)
 - [Express Documentation](https://expressjs.com/)
@@ -174,11 +179,11 @@ npm start
 
 ---
 
-## 9. CJR Projects Bio
+## 10. CJR Projects Bio
 
 **CJR Projects** is a dedicated team of students focused on creating impactful, secure software solutions. Our expertise spans application security, DevSecOps, and cloud computing. The team, comprised of **Raven Weeks**, **Jaime Futter**, and **Chloe' Stanley**, is committed to maintaining high standards of security, scalability, and performance in all projects, including the **Secure Customer and Employee International Payments Portal**.
 
 ---
 
-## 10. License
+## 11. License
 This project is licensed under the terms of The Independent Institute of Education (IIE).
